@@ -7,8 +7,14 @@ const tipPrice = document.querySelector(".tip-price");
 const totalPrice = document.querySelector(".total-price");
 const error = document.querySelector(".error")
 let percent = 0;
+const MAX_VALUE = 10000;
+const maxValueTip = 100;
 
 function calculate() {
+  if (headerInput.value < 0 || footerInput.value < 0 || middleInput.value < 0) {
+    return;
+  }
+
   let tip = headerInput.value * percent / 100;
   let tipPerPerson = tip / footerInput.value;
   tipPrice.textContent = "$" + tipPerPerson.toFixed(2);
@@ -35,9 +41,23 @@ reset.addEventListener("click",function(){
 
 
 
+headerInput.addEventListener("input", function () {
+  if (headerInput.value > MAX_VALUE) {
+    headerInput.value = MAX_VALUE;
+  }
+
+  calculate();
+});
+
+
+
+
 headerInput.addEventListener("input",calculate);
 
 middleInput.addEventListener("input",function(){
+  if (middleInput.value > maxValueTip) {
+    middleInput.value = maxValueTip;
+  }
   percent = parseInt(middleInput.value);
   calculate();
 })
